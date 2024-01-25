@@ -11,14 +11,16 @@ Note: This sketch takes up a lot of space for the app and may not be able to fla
 #include "WiFiProv.h"
 #include "WiFi.h"
 #include <HTTPClient.h>
+#include <CRC32.h>
 
 
 
 // #define USE_SOFT_AP // Uncomment if you want to enforce using the Soft AP method instead of BLE
-const char * pop = "abcd1234"; // Proof of possession - otherwise called a PIN - string provided by the device, entered by the user in the phone app
-const char * service_name = "PROV_123"; // Name of your device (the Espressif apps expects by default device name starting with "Prov_")
+char service_name[10]; // Buffer for the service name
+char pop[9];           // Buffer for the Proof of Possession (POP)
 const char * service_key = NULL; // Password used for SofAP method (NULL = no password needed)
 bool reset_provisioned = true; // When true the library will automatically delete previously provisioned data.
+unsigned long startTime;
 
 
 // WARNING: SysProvEvent is called from a separate FreeRTOS task (thread)!
@@ -64,8 +66,22 @@ void SysProvEvent(arduino_event_t *sys_event) {
 }
 
 void setup() {
+  startTime = millis(); // Initialize the start time
   Serial.begin(115200);
 
+randomSeed(analogRead(0)); // Initialize random number generator
+  int randomNumber = random(1000, 9999); // Generate a random number between 1000 and 9999
+  sprintf(service_name, "RFHS_%04d", randomNumber); // Create the service name
+
+  // Calculate CRC32 of the generated service name
+  CRC32 crc;
+  crc.update(service_name, strlen(service_name));
+  sprintf(pop, "%08X", crc.finalize()); // Store the CRC32 hash as a hexadecimal string
+
+  Serial.print("Service Name: ");
+  Serial.println(service_name);
+  Serial.print("Proof of Possession (POP): ");
+  Serial.println(pop);
 
   WiFi.onEvent(SysProvEvent);
   // Fetch URL
@@ -87,13 +103,30 @@ void setup() {
   WiFiProv.printQR(service_name, pop, "softap");
 #endif
 
-  fetchURL();
-  delay(100000);  // 60-second delay
-  ESP.restart();
+  
 }
 
 void loop() {
+  if (millis() - startTime >= 100000) {
+    Serial.println("Rebooting after 100 seconds");
+    ESP.restart(); // Reboot the ESP32
+  }
+
+
+  if(WiFi.status() == WL_CONNECTED) {
+      Serial.println("ESP32 is connected to WiFi");
+      fetchURL();
+      delay(600000);  // 60-second delay
+    ESP.restart();
+  } else {
+      Serial.println("ESP32 is not connected to WiFi");
+  }
+  
 }
+
+
+
+
 
 void fetchURL() {
   HTTPClient http;
