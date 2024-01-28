@@ -27,4 +27,4 @@ I've created `BLEster.py`, a script to automate the provisioning process. Run th
 
 ### Do Know
 
-I've yet to participate in any of the in person CTF that this has been run at so I've got no clue if this will work. It will likely need some fidling to actually get it scoring once you're setup in the room. 
+I've yet to participate in any of the in person CTF that this has been run at so I've got no clue if this will work. It will likely need some fidling to actually get it scoring once you're setup in the room. It's entirely possible that the mechanism being used to provdsision the wifi is entirely custom and uses bespoke paylods in some kind of novel way.  Run at your own risk!
