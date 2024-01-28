@@ -25,3 +25,6 @@ After exploring the use of protobuffs in my code to provision the queen, I pivot
 
 I've created `BLEster.py`, a script to automate the provisioning process. Run the script, provide the SSID and password for your MITM setup, and the script will handle device scanning, CRC32 hashing, and provisioning calls. Once the 'Queen' is provisioned, the script returns to scanning for new devices.
 
+### Do Know
+
+I've yet to participate in any of the in person CTF that this has been run at so I've got no clue if this will work. It will likely need some fidling to actually get it scoring once you're setup in the room. 
