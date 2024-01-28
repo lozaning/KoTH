@@ -21,7 +21,8 @@ Espressif provides demo code for this purpose in their Arduino core repository, 
 The repository now includes a file named `Queen.ino`, which is a modified version of the `WiFiProv.ino`. This sketch aims to replicate the functionality and function calls/methods of the contest ESP32. Note that it may not exactly match the contest ESP32, so avoid basing strategies on this code. Adjustments to timings and function calls may be necessary.
 
 ## Automated Provisioning
-After exploring the use of protobuffs in my code to provision the queen, I pivoted to using Espressif's Python code for provisioning, available [here](https://github.com/espressif/esp-idf/blob/master/tools/esp_prov/esp_prov.py).
+After exploring the use of protobuffs in my ESP32 code to provision the queen, I pivoted to using Espressif's Python code for provisioning, available [here](https://github.com/espressif/esp-idf/blob/master/tools/esp_prov/esp_prov.py).
+The onboard BT module of a Raspberry Pi 4 works fine to run this software
 
 I've created `BLEster.py`, a script to automate the provisioning process. Run the script, provide the SSID and password for your MITM setup, and the script will handle device scanning, CRC32 hashing, and provisioning calls. Once the 'Queen' is provisioned, the script returns to scanning for new devices.
 
