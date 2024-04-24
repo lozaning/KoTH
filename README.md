@@ -17,6 +17,9 @@ According to the [RFHS Wiki](https://github.com/rfhs/rfhs-wiki/wiki/RF-CTF-King-
 ## WiFi Provisioning via BLE
 Espressif provides demo code for this purpose in their Arduino core repository, which can be found [here](https://github.com/espressif/arduino-esp32/blob/master/libraries/WiFiProv/examples/WiFiProv/WiFiProv.ino). They also offer a demo Android App for testing purposes, available on the [Google Play Store](https://play.google.com/store/apps/details?id=com.espressif.provble).
 
+## AiTM Network
+This code is BYO(MITM), which is to say that it's left as an excersize to the reader to get hostapd installed along side DNSMasq and maybe a fLASK web server to reply. 
+
 ## Queen.ino
 The repository now includes a file named `Queen.ino`, which is a modified version of the `WiFiProv.ino`. This sketch aims to replicate the functionality and function calls/methods of the contest ESP32. Note that it may not exactly match the contest ESP32, so avoid basing strategies on this code. Adjustments to timings and function calls may be necessary.
 
@@ -26,6 +29,10 @@ The onboard BT module of a Raspberry Pi 4 works fine to run this software
 
 I've created `BLEster.py`, a script to automate the provisioning process. Run the script, provide the SSID and password for your MITM setup, and the script will handle device scanning, CRC32 hashing, and provisioning calls. Once the 'Queen' is provisioned, the script returns to scanning for new devices.
 
-### Do Know
+## Do Know
 
-I've yet to participate in any of the in person CTF that this has been run at so I've got no clue if this will work. It will likely need some fidling to actually get it scoring once you're setup in the room. It's entirely possible that the mechanism being used to provdsision the wifi is entirely custom and uses bespoke paylods in some kind of novel way.  Run at your own risk!
+That when i competed with this setup (actually an 'improved' version of this setup) at BSides charm, I managed to onboard and reply back to the contest ESP32 exactyl once, so know that if you use this code/tutorial you should not expect to do well without making some of your own imrprovments. 
+
+## Do Know Even More
+
+Im making even more improvmenets to my setup that I'll be bringing to DefCon, so you _really shouldnt expect to do well if you're just using this readme/code. This is mostly so you'vegot a good starting place for you to iterate off. After defcon i'll update this repo again with the setup i used to comepte there. 
